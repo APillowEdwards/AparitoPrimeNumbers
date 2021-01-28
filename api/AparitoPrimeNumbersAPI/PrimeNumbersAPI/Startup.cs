@@ -16,6 +16,8 @@ namespace WebApplication1
 {
     public class Startup
     {
+        private readonly string DEVELOPMENT_CORS_POLICY = "DevelopmentCorsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,6 +28,17 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: DEVELOPMENT_CORS_POLICY,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3000")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
+
             services.AddMemoryCache();
 
             services.AddControllers();
@@ -44,6 +57,11 @@ namespace WebApplication1
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            if (env.IsDevelopment())
+            {
+                app.UseCors(DEVELOPMENT_CORS_POLICY);
+            }
 
             app.UseAuthorization();
 
