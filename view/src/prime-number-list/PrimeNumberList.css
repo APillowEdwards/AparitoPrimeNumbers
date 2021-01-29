@@ -1,7 +1,9 @@
 .prime-number-row {
   background-color: lightgrey;
+  border-radius: 15px;
+
   text-align: center;
+
   margin-bottom: 5px;
   padding: 5px;
-  border-radius: 15px
 }
