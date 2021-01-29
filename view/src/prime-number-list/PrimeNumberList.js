@@ -73,7 +73,7 @@ class PrimeNumberList extends React.Component {
         <h1>Prime Numbers</h1>
 
         {this.state.errorMessage &&
-          <p>{this.state.errorMessage}</p>
+          <div class="alert alert-secondary">{this.state.errorMessage}</div>
         }
 
         <label htmlFor="maximumPrimeValue">Maximum Prime Value</label>
