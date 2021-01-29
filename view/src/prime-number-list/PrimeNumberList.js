@@ -11,7 +11,9 @@ class PrimeNumberList extends React.Component {
       maximumPrimeValue: null,
       primes: [],
       numberOfPages: 1,
-      pageNumber: 1
+      pageNumber: 1,
+
+      errorMessage: null
     };
 
     this.maximumPrimeValueChanged = this.maximumPrimeValueChanged.bind(this);
@@ -32,7 +34,11 @@ class PrimeNumberList extends React.Component {
         })
       })
       .catch(error => {
-        console.log(error.response)
+        var errors = error.response.data?.errors;
+        if (errors?.max[0] !== "") {
+          this.setState({errorMessage: error.response.data?.errors?.max[0]});
+        }
+        console.log(error.response.data)
       });
   }
 
@@ -47,13 +53,18 @@ class PrimeNumberList extends React.Component {
     for(let i = start; i <= end; i++) {
       array.push(i);
     }
-    console.log(array)
     return array;
   }
 
   render() {
     return (
       <div>
+        <h2>Prime Numbers</h2>
+
+        {this.state.errorMessage &&
+          <p>{this.state.errorMessage}</p>
+        }
+
         <label htmlFor="maximumPrimeValue">Maximum Prime Value </label>
         <input id="maximumPrimeValue" name="maximumPrimeValue" onChange={this.maximumPrimeValueChanged}></input>
         <button onClick={this.getPrimeNumbers}>Get Primes</button>
