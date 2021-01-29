@@ -19,14 +19,14 @@ namespace PrimeNumbersAPI.Logic
             _isPrimeCache = cache;
         }
 
-        public APIResponse<IEnumerable<int>> GetPrimesBelowOrEqualTo(int max)
+        public APIResponse<IEnumerable<int>> GetPrimesMax(int max)
         {
-            IEnumerable<int> primeNumbers = GetPrimesBelowOrEqualToValues(max);
+            IEnumerable<int> primeNumbers = GetPrimesMaxValues(max);
 
             return APIResponse<IEnumerable<int>>.OkResponse(primeNumbers);
         }
 
-        public APIResponse<PrimeNumberPage> GetPrimesBelowOrEqualToWithPages(int max, int pageSize, int pageIndex)
+        public APIResponse<PrimeNumberPage> GetPrimesMaxWithPages(int max, int pageSize, int pageIndex)
         {
             if (pageSize < 1)
             {
@@ -38,7 +38,7 @@ namespace PrimeNumbersAPI.Logic
                 return APIResponse<PrimeNumberPage>.BadRequestResponse("Page index cannot be less than 0");
             }
 
-            IEnumerable<int> primeNumbers = GetPrimesBelowOrEqualToValues(max);
+            IEnumerable<int> primeNumbers = GetPrimesMaxValues(max);
 
             PrimeNumberPage page = new PrimeNumberPage
             {
@@ -52,7 +52,7 @@ namespace PrimeNumbersAPI.Logic
             return APIResponse<PrimeNumberPage>.OkResponse(page);
         }
 
-        private IEnumerable<int> GetPrimesBelowOrEqualToValues(int max)
+        private IEnumerable<int> GetPrimesMaxValues(int max)
         {
             /*
              * Using "max - 1" here as we want to start with 2 (because 1 looks prime but isn't) 

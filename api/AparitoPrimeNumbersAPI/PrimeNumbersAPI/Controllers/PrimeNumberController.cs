@@ -24,11 +24,11 @@ namespace PrimeNumbersAPI.Controllers
         }
 
         [HttpGet("{max}")]
-        public APIResponse<IEnumerable<int>> GetPrimesBelowOrEqualTo(int max)
+        public APIResponse<IEnumerable<int>> GetPrimesMax(int max)
         {
             try
             {
-                return _primeNumberLogic.GetPrimesBelowOrEqualTo(max);
+                return _primeNumberLogic.GetPrimesMax(max);
             }
             catch (Exception e)
             {
@@ -37,12 +37,12 @@ namespace PrimeNumbersAPI.Controllers
             }
         }
 
-        [HttpGet("{max}/{pageSize}/{pageNumber}")]
-        public APIResponse<PrimeNumberPage> GetPrimesBelowOrEqualTo(int max, int pageSize, int pageIndex)
+        [HttpGet("{max}/{pageSize}/{pageIndex}")]
+        public APIResponse<PrimeNumberPage> GetPrimesMax(int max, int pageSize, int pageIndex)
         {
             try
             {
-                return _primeNumberLogic.GetPrimesBelowOrEqualToWithPages(max, pageSize, pageIndex);
+                return _primeNumberLogic.GetPrimesMaxWithPages(max, pageSize, pageIndex);
             }
             catch (Exception e)
             {

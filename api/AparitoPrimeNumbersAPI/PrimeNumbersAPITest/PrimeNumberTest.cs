@@ -58,32 +58,32 @@ namespace PrimeNumbersAPITest
         }
 
         [Fact]
-        public void PrimeNumber_GetPrimesBelowOrEqualTo_OneShouldBeEmpty()
+        public void PrimeNumber_GetPrimesMax_OneShouldBeEmpty()
         {
             PrimeNumberLogic pn = new PrimeNumberLogic(_cache);
 
-            IEnumerable<int> primes = pn.GetPrimesBelowOrEqualTo(1).Result;
+            IEnumerable<int> primes = pn.GetPrimesMax(1).Result;
 
             Assert.Empty(primes);
         }
 
         [Fact]
-        public void PrimeNumber_GetPrimesBelowOrEqualTo_2ShouldBeJust2()
+        public void PrimeNumber_GetPrimesMax_2ShouldBeJust2()
         {
             PrimeNumberLogic pn = new PrimeNumberLogic(_cache);
 
-            IEnumerable<int> primes = pn.GetPrimesBelowOrEqualTo(2).Result;
+            IEnumerable<int> primes = pn.GetPrimesMax(2).Result;
 
             Assert.Single(primes);
             Assert.Equal(2, primes.FirstOrDefault());
         }
 
         [Fact]
-        public void PrimeNumber_GetPrimesBelowOrEqualTo_SmallPrimes()
+        public void PrimeNumber_GetPrimesMax_SmallPrimes()
         {
             PrimeNumberLogic pn = new PrimeNumberLogic(_cache);
 
-            IEnumerable<int> primes = pn.GetPrimesBelowOrEqualTo(10).Result;
+            IEnumerable<int> primes = pn.GetPrimesMax(10).Result;
             List<int> expectedPrimes = new List<int>
             {
                 2, 3, 5, 7
@@ -94,21 +94,21 @@ namespace PrimeNumbersAPITest
         }
 
         [Fact]
-        public void PrimeNumber_GetPrimesBelowOrEqualTo_500()
+        public void PrimeNumber_GetPrimesMax_500()
         {
             PrimeNumberLogic pn = new PrimeNumberLogic(_cache);
 
-            IEnumerable<int> primes = pn.GetPrimesBelowOrEqualTo(500).Result;
+            IEnumerable<int> primes = pn.GetPrimesMax(500).Result;
 
             Assert.Equal(95, primes.Count());
         }
 
         [Fact]
-        public void PrimeNumber_GetPrimesBelowOrEqualToWithPages_500FirstPage()
+        public void PrimeNumber_GetPrimesMaxWithPages_500FirstPage()
         {
             PrimeNumberLogic pn = new PrimeNumberLogic(_cache);
 
-            PrimeNumberPage page = pn.GetPrimesBelowOrEqualToWithPages(500, 5, 0).Result;
+            PrimeNumberPage page = pn.GetPrimesMaxWithPages(500, 5, 0).Result;
 
             List<int> expectedPrimes = new List<int>
             {
@@ -122,11 +122,11 @@ namespace PrimeNumbersAPITest
         }
 
         [Fact]
-        public void PrimeNumber_GetPrimesBelowOrEqualToWithPages_500SecondPage()
+        public void PrimeNumber_GetPrimesMaxWithPages_500SecondPage()
         {
             PrimeNumberLogic pn = new PrimeNumberLogic(_cache);
 
-            PrimeNumberPage page = pn.GetPrimesBelowOrEqualToWithPages(500, 5, 1).Result;
+            PrimeNumberPage page = pn.GetPrimesMaxWithPages(500, 5, 1).Result;
 
             List<int> expectedPrimes = new List<int>
             {
@@ -140,12 +140,12 @@ namespace PrimeNumbersAPITest
         }
 
         [Fact]
-        public void PrimeNumber_GetPrimesBelowOrEqualToWithPages_500WithCaching()
+        public void PrimeNumber_GetPrimesMaxWithPages_500WithCaching()
         {
             PrimeNumberLogic pn = new PrimeNumberLogic(_cache);
 
-            PrimeNumberPage page = pn.GetPrimesBelowOrEqualToWithPages(500, 5, 0).Result;
-            page = pn.GetPrimesBelowOrEqualToWithPages(500, 5, 0).Result;
+            PrimeNumberPage page = pn.GetPrimesMaxWithPages(500, 5, 0).Result;
+            page = pn.GetPrimesMaxWithPages(500, 5, 0).Result;
 
             List<int> expectedPrimes = new List<int>
             {
@@ -159,21 +159,21 @@ namespace PrimeNumbersAPITest
         }
 
         [Fact]
-        public void PrimeNumber_GetPrimesBelowOrEqualToWithPages_PageSize0()
+        public void PrimeNumber_GetPrimesMaxWithPages_PageSize0()
         {
             PrimeNumberLogic pn = new PrimeNumberLogic(_cache);
 
-            int code = pn.GetPrimesBelowOrEqualToWithPages(500, 0, 0).Code;
+            int code = pn.GetPrimesMaxWithPages(500, 0, 0).Code;
 
             Assert.Equal(400, code);
         }
 
         [Fact]
-        public void PrimeNumber_GetPrimesBelowOrEqualToWithPages_PageIndexLessThan0()
+        public void PrimeNumber_GetPrimesMaxWithPages_PageIndexLessThan0()
         {
             PrimeNumberLogic pn = new PrimeNumberLogic(_cache);
 
-            int code = pn.GetPrimesBelowOrEqualToWithPages(500, 5, -1).Code;
+            int code = pn.GetPrimesMaxWithPages(500, 5, -1).Code;
 
             Assert.Equal(400, code);
         }
