@@ -59,7 +59,7 @@ class PrimeNumberList extends React.Component {
   render() {
     return (
       <div>
-        <h2>Prime Numbers</h2>
+        <h1>Prime Numbers</h1>
 
         {this.state.errorMessage &&
           <p>{this.state.errorMessage}</p>
