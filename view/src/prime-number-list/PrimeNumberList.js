@@ -9,37 +9,74 @@ class PrimeNumberList extends React.Component {
     super(props);
     this.state = {
       maximumPrimeValue: null,
-      primes: []
+      primes: [],
+      numberOfPages: 1,
+      pageNumber: 1
     };
 
     this.maximumPrimeValueChanged = this.maximumPrimeValueChanged.bind(this);
     this.getPrimeNumbers = this.getPrimeNumbers.bind(this);
+    this.pageNumberChanged = this.pageNumberChanged.bind(this);
   }
 
   maximumPrimeValueChanged(event) {
     this.setState({maximumPrimeValue: event.target.value});
   }
 
-  getPrimeNumbers(event) {
-    API.get(`/primenumber/${this.state.maximumPrimeValue}`)
+  getPrimeNumbers() {
+    API.get(`/primenumber/${this.state.maximumPrimeValue}/20/${this.state.pageNumber - 1}`)
       .then(response => {
-        this.setState({primes: response.data.result})
+        this.setState({
+          primes: response.data.result.primeNumbers,
+          numberOfPages: response.data.result.numberOfPages
+        })
       })
       .catch(error => {
-
+        console.log(error.response)
       });
+  }
+
+  pageNumberChanged(event) {
+    this.setState({pageNumber: parseInt(event.target.value)}, () => {
+      this.getPrimeNumbers();
+    });
+  }
+
+  range(start, end) {
+    var array = [];
+    for(let i = start; i <= end; i++) {
+      array.push(i);
+    }
+    console.log(array)
+    return array;
   }
 
   render() {
     return (
       <div>
-        <label htmlFor="maximumPrimeValue">Maximum Prime Value</label>
+        <label htmlFor="maximumPrimeValue">Maximum Prime Value </label>
         <input id="maximumPrimeValue" name="maximumPrimeValue" onChange={this.maximumPrimeValueChanged}></input>
         <button onClick={this.getPrimeNumbers}>Get Primes</button>
 
-        <ul>
-          {this.state.primes.map(prime => <li key={prime.toString()}>{prime}</li>)}
-        </ul>
+        <hr/>
+
+        {this.state.numberOfPages > 1 &&
+          <div>
+            <label htmlFor="pageNumber">Page </label>
+            <select id="pageNumber" value={this.state.pageNumber} onChange={this.pageNumberChanged}>
+              {this.range(1, this.state.numberOfPages).map(index => <option value={index} key={index.toString()} readOnly={true}>{index}</option>)}
+            </select>
+            <hr/>
+          </div>
+        }
+
+        {this.state.primes.length > 0 &&
+          <ul>
+            {(this.state.pageNumber !== 1) && <p>...</p>}
+            {this.state.primes.map(prime => <li key={prime.toString()}>{prime}</li>)}
+            {(this.state.numberOfPages !== this.state.pageNumber) && <p>...</p>}
+          </ul>
+        }
       </div>
     )
   }
