@@ -64,7 +64,7 @@ class PrimeNumberList extends React.Component {
 
   render() {
     return (
-      <div class="container">
+      <div>
         <h1>Prime Numbers</h1>
 
         {this.state.errorMessage &&
@@ -88,15 +88,19 @@ class PrimeNumberList extends React.Component {
         }
 
         {this.state.primes.length > 0 &&
-          <ul>
-            {(this.state.pageNumber !== 1) && <p>...</p>}
-            {this.state.primes.map(prime => <li key={prime.toString()}>{prime}</li>)}
-            {(this.state.numberOfPages !== this.state.pageNumber) && <p>...</p>}
-          </ul>
+          <div>
+            {(this.state.pageNumber !== 1) && <PrimeNumberRow value="..." />}
+            {this.state.primes.map(prime => <PrimeNumberRow key={prime.toString()} value={prime} />)}
+            {(this.state.numberOfPages !== this.state.pageNumber) && <PrimeNumberRow value="..." />}
+          </div>
         }
       </div>
     )
   }
+}
+
+function PrimeNumberRow(props) {
+  return <div className="prime-number-row">{props.value}</div>
 }
 
 export default PrimeNumberList;

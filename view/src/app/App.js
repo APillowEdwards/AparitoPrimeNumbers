@@ -3,7 +3,7 @@ import PrimeNumberList from '../prime-number-list/PrimeNumberList'
 
 function App() {
   return (
-    <div className="App">
+    <div className="container">
       <PrimeNumberList />
     </div>
   );
