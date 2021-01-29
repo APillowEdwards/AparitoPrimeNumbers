@@ -64,7 +64,7 @@ class PrimeNumberList extends React.Component {
 
   render() {
     return (
-      <div>
+      <div class="container">
         <h1>Prime Numbers</h1>
 
         {this.state.errorMessage &&
@@ -72,15 +72,15 @@ class PrimeNumberList extends React.Component {
         }
 
         <label htmlFor="maximumPrimeValue">Maximum Prime Value </label>
-        <input id="maximumPrimeValue" name="maximumPrimeValue" onChange={this.maximumPrimeValueChanged}></input>
-        <button onClick={this.getPrimeNumbers}>Get Primes</button>
+        <input id="maximumPrimeValue" className="form-control mb-2" name="maximumPrimeValue" onChange={this.maximumPrimeValueChanged}></input>
+        <button className="btn btn-primary" onClick={this.getPrimeNumbers}>Get Primes</button>
 
         <hr/>
 
         {this.state.numberOfPages > 1 &&
           <div>
             <label htmlFor="pageNumber">Page </label>
-            <select id="pageNumber" value={this.state.pageNumber} onChange={this.pageNumberChanged}>
+            <select id="pageNumber" className="form-control" value={this.state.pageNumber} onChange={this.pageNumberChanged}>
               {this.range(1, this.state.numberOfPages).map(index => <option value={index} key={index.toString()} readOnly={true}>{index}</option>)}
             </select>
             <hr/>
