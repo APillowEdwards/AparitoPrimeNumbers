@@ -8,7 +8,8 @@ class PrimeNumberList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      maximumPrimeValue: null,
+      maximumPrimeValue: "",
+      pageSize: 20,
       primes: [],
       numberOfPages: 1,
       pageNumber: 1,
@@ -16,17 +17,17 @@ class PrimeNumberList extends React.Component {
       errorMessage: null
     };
 
-    this.maximumPrimeValueChanged = this.maximumPrimeValueChanged.bind(this);
+    this.formValueChanged = this.formValueChanged.bind(this);
     this.getPrimeNumbers = this.getPrimeNumbers.bind(this);
     this.pageNumberChanged = this.pageNumberChanged.bind(this);
   }
 
-  maximumPrimeValueChanged(event) {
-    this.setState({maximumPrimeValue: event.target.value});
+  formValueChanged(event) {
+    this.setState({[event.target.name]: event.target.value});
   }
 
   getPrimeNumbers() {
-    API.get(`/primenumber/${this.state.maximumPrimeValue}/20/${this.state.pageNumber - 1}`)
+    API.get(`/primenumber/${this.state.maximumPrimeValue}/${this.state.pageSize}/${this.state.pageNumber - 1}`)
       .then(response => {
         this.setState({
           primes: response.data.result.primeNumbers,
@@ -49,7 +50,11 @@ class PrimeNumberList extends React.Component {
   }
 
   pageNumberChanged(event) {
-    this.setState({pageNumber: parseInt(event.target.value)}, () => {
+    this.changePageNumber(parseInt(event.target.value));
+  }
+
+  changePageNumber(newValue) {
+    this.setState({pageNumber: newValue}, () => {
       this.getPrimeNumbers();
     });
   }
@@ -71,27 +76,39 @@ class PrimeNumberList extends React.Component {
           <p>{this.state.errorMessage}</p>
         }
 
-        <label htmlFor="maximumPrimeValue">Maximum Prime Value </label>
-        <input id="maximumPrimeValue" className="form-control mb-2" name="maximumPrimeValue" onChange={this.maximumPrimeValueChanged}></input>
+        <label htmlFor="maximumPrimeValue">Maximum Prime Value</label>
+        <input id="maximumPrimeValue" className="form-control mb-2" name="maximumPrimeValue" value={this.state.maximumPrimeValue} onChange={this.formValueChanged}></input>
+
+        <label htmlFor="pageSize">Page Size</label>
+        <select id="pageSize" className="form-control mb-2" name="pageSize" value={this.state.pageSize} onChange={this.formValueChanged}>
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+
         <button className="btn btn-primary" onClick={this.getPrimeNumbers}>Get Primes</button>
 
         <hr/>
 
         {this.state.numberOfPages > 1 &&
           <div>
-            <label htmlFor="pageNumber">Page </label>
+            <label htmlFor="pageNumber">Page</label>
             <select id="pageNumber" className="form-control" value={this.state.pageNumber} onChange={this.pageNumberChanged}>
               {this.range(1, this.state.numberOfPages).map(index => <option value={index} key={index.toString()} readOnly={true}>{index}</option>)}
             </select>
+
             <hr/>
           </div>
         }
 
         {this.state.primes.length > 0 &&
           <div>
-            {(this.state.pageNumber !== 1) && <PrimeNumberRow value="..." />}
+            <PrimeNumberRow clickable={true} invisible={this.state.pageNumber === 1} value={<i className="icofont-arrow-up"></i>} onClick={() => this.changePageNumber(this.state.pageNumber - 1)} />
+
             {this.state.primes.map(prime => <PrimeNumberRow key={prime.toString()} value={prime} />)}
-            {(this.state.numberOfPages !== this.state.pageNumber) && <PrimeNumberRow value="..." />}
+
+            <PrimeNumberRow clickable={true} invisible={this.state.numberOfPages === this.state.pageNumber} value={<i className="icofont-arrow-down"></i>} onClick={() => this.changePageNumber(this.state.pageNumber + 1)} />
           </div>
         }
       </div>
@@ -100,7 +117,7 @@ class PrimeNumberList extends React.Component {
 }
 
 function PrimeNumberRow(props) {
-  return <div className="prime-number-row">{props.value}</div>
+  return <div className={"prime-number-row " + (props.invisible ? "invisible " : " ") + (props.clickable ? "clickable" : "")} onClick={props.onClick}>{props.value}</div>
 }
 
 export default PrimeNumberList;

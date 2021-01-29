@@ -7,3 +7,7 @@
   margin-bottom: 5px;
   padding: 5px;
 }
+
+.clickable:hover {
+  cursor: pointer;
+}
