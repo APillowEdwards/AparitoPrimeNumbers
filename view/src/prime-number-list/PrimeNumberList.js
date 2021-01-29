@@ -34,11 +34,17 @@ class PrimeNumberList extends React.Component {
         })
       })
       .catch(error => {
-        var errors = error.response.data?.errors;
-        if (errors?.max[0] !== "") {
-          this.setState({errorMessage: error.response.data?.errors?.max[0]});
+        var message = "There has been a problem with the application. Please try again later.";
+
+        var errors = error?.response?.data?.errors;
+
+        if (errors) {
+          if (errors?.max[0] !== "") {
+            message = error.response.data?.errors?.max[0];
+          }
         }
-        console.log(error.response.data)
+
+        this.setState({errorMessage: message});
       });
   }
 
