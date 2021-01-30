@@ -10,3 +10,6 @@ services:
     build: ./api/AparitoPrimeNumbersAPI
     ports:
       - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DEVELOPMENT_CORS_ORIGIN=http://localhost
