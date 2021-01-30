@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  view:
+    build: ./view
+    ports:
+      - "80:3000"
+  #api:
+    #image: "redis:alpine"
