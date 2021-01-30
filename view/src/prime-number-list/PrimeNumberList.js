@@ -10,6 +10,7 @@ class PrimeNumberList extends React.Component {
     this.state = {
       maximumPrimeValue: "",
       pageSize: 25,
+      originalPageSize: 25, // if the user changes page size without pressing "Get Primes", subsequent requests should use the old size
       primes: [],
       numberOfPages: 1,
       pageNumber: 1,
@@ -18,6 +19,7 @@ class PrimeNumberList extends React.Component {
     };
 
     this.formValueChanged = this.formValueChanged.bind(this);
+    this.getPrimesPressed = this.getPrimesPressed.bind(this);
     this.getPrimeNumbers = this.getPrimeNumbers.bind(this);
     this.pageNumberChanged = this.pageNumberChanged.bind(this);
   }
@@ -26,8 +28,14 @@ class PrimeNumberList extends React.Component {
     this.setState({[event.target.name]: event.target.value});
   }
 
+  getPrimesPressed() {
+    this.setState({originalPageSize: this.state.pageSize, pageNumber: 1}, () => {
+      this.getPrimeNumbers();
+    });
+  }
+
   getPrimeNumbers() {
-    API.get(`/primenumber/${this.state.maximumPrimeValue}/${this.state.pageSize}/${this.state.pageNumber - 1}`)
+    API.get(`/primenumber/${this.state.maximumPrimeValue}/${this.state.originalPageSize}/${this.state.pageNumber - 1}`)
       .then(response => {
         this.setState({
           primes: response.data.result.primeNumbers,
@@ -86,7 +94,7 @@ class PrimeNumberList extends React.Component {
           <option value="100">100</option>
         </select>
 
-        <button className="btn btn-primary" onClick={this.getPrimeNumbers}>Get Primes</button>
+        <button className="btn btn-primary" onClick={this.getPrimesPressed}>Get Primes</button>
 
         <hr/>
 
