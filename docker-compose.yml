@@ -4,5 +4,7 @@ services:
     build: ./view
     ports:
       - "80:3000"
-  #api:
-    #image: "redis:alpine"
+  api:
+    build: ./api/AparitoPrimeNumbersAPI
+    ports:
+      - "8080:80"
