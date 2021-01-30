@@ -1,4 +1,4 @@
-# AparitoPrimeNumbers
+# Aparito Prime Numbers
 
 This is my technical test for Aparito, it's an app that generates prime numbers using a .NET Core application and displays them on a React frontend.
 
