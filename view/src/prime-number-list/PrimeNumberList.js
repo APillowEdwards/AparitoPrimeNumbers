@@ -9,7 +9,7 @@ class PrimeNumberList extends React.Component {
     super(props);
     this.state = {
       maximumPrimeValue: "",
-      pageSize: 20,
+      pageSize: 25,
       primes: [],
       numberOfPages: 1,
       pageNumber: 1,
@@ -81,7 +81,6 @@ class PrimeNumberList extends React.Component {
 
         <label htmlFor="pageSize">Page Size</label>
         <select id="pageSize" className="form-control mb-2" name="pageSize" value={this.state.pageSize} onChange={this.formValueChanged}>
-          <option value="10">10</option>
           <option value="25">25</option>
           <option value="50">50</option>
           <option value="100">100</option>
