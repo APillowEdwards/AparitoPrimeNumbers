@@ -2,7 +2,7 @@
 
 This is my technical test for Aparito, it's an app that generates prime numbers using a .NET Core application and displays them on a React frontend.
 
-In order to run it using docker, simply clone the repository, navigate to the root of the project and run:
+In order to run it using docker, simply clone the repository, navigate to the root of the repository and run:
 
     docker-compose up --build
 
